@@ -83,7 +83,41 @@ class MoodAnalyzer:
         #
         # Hint: if you implement negation, you may want to look at pairs of tokens,
         # like ("not", "happy") or ("never", "fun").
-        pass
+
+        tokens = self.preprocess(text)
+        score = 0
+
+        # Negation handling: words like "not", "never", "don't" flip the next sentiment word.
+        NEGATIONS = {"not", "never", "no", "don't", "doesn't", "didn't",
+                     "isn't", "wasn't", "can't", "won't", "nor"}
+
+        # Slang enhancement: "cooked" means opposite things depending on subject.
+        # "I'm cooked" / "she's cooked" → negative (contraction = stressed/in trouble)
+        # "I cooked" / "she cooked"     → positive (bare pronoun = succeeded/did well)
+        CONTRACTIONS = {"i'm", "he's", "she's", "they're", "we're"}
+        BARE_PRONOUNS = {"i", "he", "she", "they", "we"}
+
+        i = 0
+        while i < len(tokens):
+            token = tokens[i]
+            negated = (i > 0 and tokens[i - 1] in NEGATIONS)
+
+            if token == "cooked":
+                # Scan all prior tokens in the sentence for a pronoun or contraction.
+                prior = tokens[:i]
+                if any(t in CONTRACTIONS for t in prior):
+                    score -= 1
+                elif any(t in BARE_PRONOUNS for t in prior):
+                    score += 1
+                # If no pronoun/contraction found, "cooked" contributes nothing.
+            elif token in self.positive_words:
+                score += -1 if negated else 1
+            elif token in self.negative_words:
+                score += 1 if negated else -1
+
+            i += 1
+
+        return score
 
     # ---------------------------------------------------------------------
     # Label prediction
@@ -110,7 +144,17 @@ class MoodAnalyzer:
         #   2. Return "positive" if the score is above 0.
         #   3. Return "negative" if the score is below 0.
         #   4. Return "neutral" otherwise.
-        pass
+
+        score = self.score_text(text)
+        if score >= 2:
+            return "positive"
+        elif score <= -2:
+            return "negative"
+        elif score == 0:
+            return "neutral"
+        else:
+            # score is +1 or -1: weak signal, could go either way
+            return "mixed"
 
     # ---------------------------------------------------------------------
     # Explanations (optional but recommended)

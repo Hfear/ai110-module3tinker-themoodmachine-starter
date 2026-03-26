@@ -23,6 +23,21 @@ POSITIVE_WORDS = [
     "chill",
     "relaxed",
     "amazing",
+    # slang / informal positives
+    "fire",
+    "lit",
+    "sick",
+    "lowkey",
+    "highkey",
+    "gorgeous",
+    "loved",
+    "eats",
+    "W",
+    "slay",
+    # emoji signals (as text tokens)
+    "🔥",
+    "😂",
+    "😊",
 ]
 
 NEGATIVE_WORDS = [
@@ -36,6 +51,18 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    # slang / informal negatives
+    "ugh",
+    "missed",
+    "spilled",
+    "late",
+    "flop",
+    "mid",
+    "L",
+    # emoji signals
+    "💀",
+    "😤",
+    "😒",
 ]
 
 # ---------------------------------------------------------------------
@@ -50,6 +77,24 @@ SAMPLE_POSTS = [
     "This is fine",
     "So excited for the weekend",
     "I am not happy about this",
+    # --- added posts ---
+    "lowkey stressed but this sunset is gorgeous",          # slang + mixed
+    "I absolutely love sitting in traffic for two hours",   # sarcasm → negative
+    "just got the job offer 😭😭😭",                          # emoji ambiguity (crying = happy)
+    "this homework is fine I guess whatever",               # flat / neutral-ish
+    "no cap that concert was fire 🔥",                       # slang + positive
+    "sick beat but the lyrics are kinda sad",               # mixed
+    "woke up late, missed the bus, spilled my coffee 💀",   # negative
+    "not bad for a Monday honestly",                        # negation + mild positive
+    "highkey loved every second of that movie",             # slang + positive
+    "I'm fine 🙂",                                           # ambiguous — emoji masks negativity
+    # --- cooked / slang context posts ---
+    "This eats down",                                        # slang positive
+    "I lowkey cooked",                                       # slang + pronoun-context positive
+    "I'm highkey cooked",                                    # contraction-context negative
+    "Was a tremendous flop",                                 # negative slang
+    "I love falling",                                        # sarcasm → negative
+    "I love how you don't care about being good",            # sarcasm → negative
 ]
 
 # Human labels for each post above.
@@ -65,6 +110,24 @@ TRUE_LABELS = [
     "neutral",   # "This is fine"
     "positive",  # "So excited for the weekend"
     "negative",  # "I am not happy about this"
+    # --- added labels ---
+    "mixed",     # lowkey stressed but this sunset is gorgeous
+    "negative",  # I absolutely love sitting in traffic... (sarcasm)
+    "positive",  # just got the job offer 😭😭😭 (happy-cry emojis)
+    "neutral",   # this homework is fine I guess whatever
+    "positive",  # no cap that concert was fire 🔥
+    "mixed",     # sick beat but the lyrics are kinda sad
+    "negative",  # woke up late, missed the bus, spilled my coffee 💀
+    "positive",  # not bad for a Monday honestly
+    "positive",  # highkey loved every second of that movie
+    "neutral",   # I'm fine 🙂 — emoji masks true feeling; labeled neutral
+    # --- cooked / slang context labels ---
+    "positive",  # This eats down
+    "positive",  # I lowkey cooked
+    "negative",  # I'm highkey cooked
+    "negative",  # Was a tremendous flop
+    "negative",  # I love falling (sarcasm)
+    "negative",  # I love how you don't care about being good (sarcasm)
 ]
 
 # TODO: Add 5-10 more posts and labels.
